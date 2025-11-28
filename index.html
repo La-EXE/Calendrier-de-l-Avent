@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendrier de l'Avent EXE</title>
+<style>
+body {
+    background-color: #0d1117;
+    color: #4da6ff;
+    font-family: 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    text-shadow: 0 0 10px #4da6ff;
+}
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(6, 60px);
+    gap: 10px;
+    margin-top: 20px;
+}
+.day {
+    width: 60px;
+    height: 60px;
+    background-color: #111;
+    color: #4da6ff;
+    border: 2px solid #4da6ff;
+    text-align: center;
+    line-height: 60px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.day:hover {
+    background-color: #4da6ff;
+    color: #0d1117;
+}
+.day.locked {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+.day.opened {
+    background-color: #4da6ff;
+    color: #0d1117;
+    cursor: pointer;
+}
+#surprise {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #4da6ff;
+    background-color: #111;
+    text-align: center;
+    max-width: 400px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+footer {
+    margin-top: auto;
+    font-size: 16px;
+    text-align: center;
+    color: #4da6ff;
+    padding: 10px;
+    border-top: 2px solid #4da6ff;
+    width: 100%;
+    background-color: #111;
+}
+</style>
+</head>
+<body>
+<h1>Calendrier de l'Avent EXE</h1>
+<div class="calendar"></div>
+<div id="surprise">Cliquez sur un jour debloque pour decouvrir une surprise !</div>
+<footer>&copy; 2025 EXE</footer>
+
+<script>
+const calendar = document.querySelector('.calendar');
+const surpriseBox = document.getElementById('surprise');
+
+const today = new Date();
+const currentDay = today.getDate();
+const currentMonth = today.getMonth(); // Decembre = 11
+const openedDays = new Set();
+
+const gifts = {
+    1: "Une dedicace EXE",
+    2: "Un test de bot discord exclusif",
+    3: "Citation mystere",
+    4: "Explosion virtuelle",
+    5: "Astuce de jeu",
+    6: "Secret amusant",
+    7: "Message secret",
+    8: "Musique disponible",
+    9: "Fichier mystere",
+    10: "Technique speciale",
+    11: "Petit mot",
+    12: "Bravo pour 12 jours",
+    13: "Rien pour toi",
+    14: "Secret temporaire",
+    15: "Boost virtuel",
+    16: "Competence +1",
+    17: "Surprise drole",
+    18: "Image cosmique",
+    19: "Outil pratique",
+    20: "Backup de donnees",
+    21: "Fantome du web",
+    22: "Surprise textuelle",
+    23: "Chef pour 2 secondes",
+    24: "Joyeux Noel !"
+};
+
+for (let i = 1; i <= 24; i++) {
+    const dayElement = document.createElement('div');
+    dayElement.textContent = i;
+    dayElement.classList.add('day');
+
+    if (currentMonth !== 11 || i > currentDay) {
+        dayElement.classList.add('locked');
+    } else {
+        dayElement.addEventListener('click', () => {
+            surpriseBox.textContent = "Jour " + i + " : " + gifts[i];
+            openedDays.add(i);
+            dayElement.classList.add('opened');
+            dayElement.classList.remove('locked');
+        });
+    }
+
+    calendar.appendChild(dayElement);
+}
+
+if (currentMonth < 11) {
+    surpriseBox.textContent = "Le calendrier n'a pas encore commence. Revenez en decembre !";
+} else if (currentMonth === 11 && currentDay > 24) {
+    surpriseBox.textContent = "Le calendrier de l'Avent est termine ! Merci d'avoir suivi EXE.";
+}
+</script>
+</body>
+</html>
